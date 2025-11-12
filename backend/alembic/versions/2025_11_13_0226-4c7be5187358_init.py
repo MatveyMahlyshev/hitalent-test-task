@@ -37,9 +37,7 @@ def upgrade() -> None:
         sa.Column("text", sa.String(), nullable=False),
         sa.Column("created_at", sa.DateTime(), nullable=False),
         sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
-        sa.ForeignKeyConstraint(
-            ["question_id"], ["questions.id"], ondelete="CASCADE"
-        ),
+        sa.ForeignKeyConstraint(["question_id"], ["questions.id"], ondelete="CASCADE"),
         sa.PrimaryKeyConstraint("id"),
     )
     # ### end Alembic commands ###
