@@ -3,8 +3,9 @@ from datetime import datetime
 from sqlalchemy import String, DateTime
 from typing import TYPE_CHECKING
 from .base import Base
+
 if TYPE_CHECKING:
-    
+
     from .answer import Answer
 
 

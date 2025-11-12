@@ -12,9 +12,15 @@ if TYPE_CHECKING:
 
 class Answer(Base):
     question_id: Mapped[int] = mapped_column(
-        ForeignKey("questions.id"), ondelete="CASCADE"
+        ForeignKey(
+            "questions.id",
+            ondelete="CASCADE",
+        )
     )
-    user_id: Mapped[str] = mapped_column(String, default=uuid.uuid4())
+    user_id: Mapped[str] = mapped_column(
+        String,
+        default=uuid.uuid4(),
+    )
     text: Mapped[str] = mapped_column(
         String,
         nullable=False,
