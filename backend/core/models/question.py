@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 class Question(Base):
     text: Mapped[str] = mapped_column(
-        String,
+        String(5),
         unique=True,
         nullable=False,
     )

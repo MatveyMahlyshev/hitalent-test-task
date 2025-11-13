@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import ForeignKey, String, DateTime
+from sqlalchemy import ForeignKey, String, DateTime, UniqueConstraint
 from typing import TYPE_CHECKING
 import uuid
 from datetime import datetime
@@ -11,6 +11,12 @@ if TYPE_CHECKING:
 
 
 class Answer(Base):
+    __table_args__ = (
+        UniqueConstraint(
+            "question_id",
+            "text",
+        ),
+    )
     question_id: Mapped[int] = mapped_column(
         ForeignKey(
             "questions.id",
@@ -19,10 +25,10 @@ class Answer(Base):
     )
     user_id: Mapped[str] = mapped_column(
         String,
-        default=uuid.uuid4(),
+        default=str(uuid.uuid4()),
     )
     text: Mapped[str] = mapped_column(
-        String,
+        String(5),
         nullable=False,
     )
     created_at: Mapped[datetime] = mapped_column(
