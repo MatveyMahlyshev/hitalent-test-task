@@ -8,5 +8,9 @@ class QuestionBase(BaseModel):
 
 
 class Question(QuestionBase):
-    id: int
-    created_at: datetime
+    id: int | None
+    created_at: datetime | None
+
+
+class QuestionCreate(QuestionBase):
+    pass
