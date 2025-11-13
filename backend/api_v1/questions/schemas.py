@@ -1,10 +1,10 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from datetime import datetime
 
 
 class QuestionBase(BaseModel):
     model_config = ConfigDict(from_attributes=True)
-    text: str
+    text: str = Field(min_length=5)
 
 
 class Question(QuestionBase):

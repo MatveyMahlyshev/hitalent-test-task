@@ -5,7 +5,7 @@ from core.models import db_helper
 from . import crud
 from .schemas import Question, QuestionCreate
 
-router = APIRouter()
+router = APIRouter(tags=["Questions"])
 
 
 @router.get(
@@ -20,7 +20,7 @@ async def get_all_questions(
 
 
 @router.post(
-    "/questions/new",
+    "/questions",
     response_model=Question,
     status_code=status.HTTP_201_CREATED,
 )

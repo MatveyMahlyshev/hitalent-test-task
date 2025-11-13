@@ -41,7 +41,6 @@ async def create_new_question(
     )
 
     session.add(new_question)
-    await session.flush()
 
     try:
         await session.commit()
