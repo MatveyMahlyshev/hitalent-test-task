@@ -32,3 +32,33 @@ async def create_new_question(
         session=session,
         question=question,
     )
+
+
+@router.get(
+    "/questions/{question_id}",
+    response_model=Question,
+    status_code=status.HTTP_200_OK,
+)
+async def get_question_by_id(
+    question_id: int,
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+):
+    return await crud.get_question_by_id(
+        session=session,
+        question_id=question_id,
+    )
+
+
+@router.delete(
+    "/questions/{question_id}",
+    response_model=Question,
+    status_code=status.HTTP_200_OK,
+)
+async def delete_question(
+    question_id: int,
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+):
+    return await crud.delete_question(
+        session=session,
+        question_id=question_id,
+    )

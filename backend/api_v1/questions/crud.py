@@ -15,9 +15,13 @@ async def get_all_questions(session: AsyncSession):
     return questions
 
 
-async def get_question_by_text(session: AsyncSession, text: str):
-    stmt = select(Question).where(Question.text == text)
-    result: Result = await session.execute(statement=stmt)
+async def get_question_by_text(
+    session: AsyncSession,
+    text: str,
+):
+    result: Result = await session.execute(
+        statement=select(Question).where(Question.text == text)
+    )
     if result.scalar_one_or_none():
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -47,3 +51,31 @@ async def create_new_question(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
     return new_question
+
+
+async def get_question_by_id(
+    session: AsyncSession,
+    question_id: int,
+):
+    result: Result = await session.execute(
+        statement=select(Question).where(Question.id == question_id)
+    )
+    question: Question = result.scalar_one_or_none()
+    if not question:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return question
+
+
+async def delete_question(
+    session: AsyncSession,
+    question_id: int,
+):
+    question = await get_question_by_id(
+        session=session,
+        question_id=question_id,
+    )
+    await session.delete(question)
+    await session.commit()
+    return question
