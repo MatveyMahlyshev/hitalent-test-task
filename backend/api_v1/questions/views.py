@@ -3,14 +3,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.models import db_helper
 from . import crud
-from .schemas import Question, QuestionCreate
+from .schemas import Question, QuestionCreate, QuestionWithAnswers
 
 router = APIRouter(tags=["Questions"])
 
 
 @router.get(
     "/questions",
-    response_model=list[Question],
+    response_model=list[QuestionWithAnswers],
     status_code=status.HTTP_200_OK,
 )
 async def get_all_questions(

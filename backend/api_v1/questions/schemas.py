@@ -1,6 +1,8 @@
 from pydantic import BaseModel, ConfigDict, Field
 from datetime import datetime
 
+from api_v1.answers.schemas import Answer
+
 
 class QuestionBase(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -8,9 +10,13 @@ class QuestionBase(BaseModel):
 
 
 class Question(QuestionBase):
-    id: int | None
-    created_at: datetime | None
+    id: int
+    created_at: datetime
 
 
 class QuestionCreate(QuestionBase):
     pass
+
+
+class QuestionWithAnswers(Question):
+    answers: list[Answer]

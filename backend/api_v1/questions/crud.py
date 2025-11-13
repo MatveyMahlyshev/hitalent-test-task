@@ -2,6 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, Result
 from sqlalchemy.exc import IntegrityError
 from fastapi import HTTPException, status
+from sqlalchemy.orm import selectinload
 
 from core.models import Question
 from .schemas import QuestionCreate
@@ -9,9 +10,12 @@ from .schemas import QuestionCreate
 
 async def get_all_questions(session: AsyncSession):
     questions: Result = await session.execute(
-        statement=select(Question).order_by(Question.id)
+        statement=select(Question)
+        .options(selectinload(Question.answers))
+        .order_by(Question.id)
     )
-    questions = list(questions.scalars().all())
+    questions: list[Question] = list(questions.scalars().all())
+
     return questions
 
 
@@ -44,7 +48,7 @@ async def create_new_question(
 
     try:
         await session.commit()
-    except IntegrityError as e:
+    except IntegrityError:
         await session.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -63,6 +67,7 @@ async def get_question_by_id(
     if not question:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Вопроса с id {question_id} не существует.",
         )
     return question
 
