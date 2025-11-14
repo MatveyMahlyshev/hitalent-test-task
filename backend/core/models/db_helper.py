@@ -37,5 +37,4 @@ class DataBaseHelper:
             await session.close()
 
 
-# Для тестов
-db_helper = DataBaseHelper(url=settings.db.url, echo=settings.db.echo, testing=True)
+db_helper = DataBaseHelper(url=settings.db.url, echo=settings.db.echo, testing=False)
