@@ -10,9 +10,7 @@ from .schemas import QuestionCreate
 
 async def get_all_questions(session: AsyncSession):
     questions: Result = await session.execute(
-        statement=select(Question)
-        .options(selectinload(Question.answers))
-        .order_by(Question.id)
+        statement=select(Question).order_by(Question.id)
     )
     questions: list[Question] = list(questions.scalars().all())
 
@@ -61,7 +59,9 @@ async def get_question_by_id(
     question_id: int,
 ):
     result: Result = await session.execute(
-        statement=select(Question).where(Question.id == question_id)
+        statement=select(Question)
+        .options(selectinload(Question.answers))
+        .where(Question.id == question_id)
     )
     question: Question = result.scalar_one_or_none()
     if not question:

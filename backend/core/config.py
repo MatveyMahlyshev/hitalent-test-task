@@ -1,9 +1,10 @@
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
+import os
 
 
 class DBSettings(BaseModel):
-    url: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/hitalent_db"
+    url: str = os.getenv("DATABASE_URL")
     echo: bool = False
 
 

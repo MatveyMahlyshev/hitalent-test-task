@@ -9,19 +9,19 @@ router = APIRouter(tags=["Questions"])
 
 
 @router.get(
-    "/questions",
-    response_model=list[QuestionWithAnswers],
+    "/",
+    response_model=list[Question],
     status_code=status.HTTP_200_OK,
 )
 async def get_all_questions(
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
-    '''Список вопросов с ответами.'''
+    """Список вопросов с ответами."""
     return await crud.get_all_questions(session=session)
 
 
 @router.post(
-    "/questions",
+    "/",
     response_model=Question,
     status_code=status.HTTP_201_CREATED,
     responses={
@@ -38,8 +38,7 @@ async def create_new_question(
     question: QuestionCreate,
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
-    
-    '''Создание вопроса.'''
+    """Создание вопроса."""
     return await crud.create_new_question(
         session=session,
         question=question,
@@ -47,8 +46,8 @@ async def create_new_question(
 
 
 @router.get(
-    "/questions/{question_id}",
-    response_model=Question,
+    "/{question_id}",
+    response_model=QuestionWithAnswers,
     status_code=status.HTTP_200_OK,
     responses={
         status.HTTP_200_OK: {"description": "Хороший запрос."},
@@ -59,7 +58,7 @@ async def get_question_by_id(
     question_id: int,
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
-    '''Получение вопроса по id.'''
+    """Получение вопроса по id."""
     return await crud.get_question_by_id(
         session=session,
         question_id=question_id,
@@ -67,7 +66,7 @@ async def get_question_by_id(
 
 
 @router.delete(
-    "/questions/{question_id}",
+    "/{question_id}",
     response_model=Question,
     status_code=status.HTTP_200_OK,
     responses={
@@ -79,7 +78,7 @@ async def delete_question(
     question_id: int,
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
-    '''Удаление вопроса по id с ответами.'''
+    """Удаление вопроса по id с ответами."""
     return await crud.delete_question(
         session=session,
         question_id=question_id,
