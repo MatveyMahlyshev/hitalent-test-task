@@ -45,3 +45,10 @@ async def get_answer_by_id(
         )
 
     return answer
+
+
+async def delete_answer_by_id(session: AsyncSession, answer_id: int,):
+    answer = await get_answer_by_id(session=session, answer_id=answer_id,)
+    await session.delete(answer)
+    await session.commit()
+    return answer

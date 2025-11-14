@@ -26,9 +26,7 @@ async def create_answer(
     answer: AnswerCreate,
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
-    '''
-    Создание ответов к вопросу
-    '''
+    '''Создание ответов к вопросу.'''
     return await crud.create_answer(
         session=session,
         question_id=question_id,
@@ -49,10 +47,27 @@ async def get_answer_by_id(
     answer_id: int,
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
-    '''
-    Получение ответа по id
-    '''
+    '''Получение ответа по id.'''
     return await crud.get_answer_by_id(
+        session=session,
+        answer_id=answer_id,
+    )
+
+
+@router.delete(
+    "/{answer_id}",
+    response_model=Answer,
+    responses={
+        status.HTTP_200_OK: {"description": "Хороший запрос."},
+        status.HTTP_404_NOT_FOUND: {"description": "Нет вопроса с таким id."},
+    },
+)
+async def delete_answer_by_id(
+    answer_id: int,
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+):
+    '''Удаление ответа по id.'''
+    return await crud.delete_answer_by_id(
         session=session,
         answer_id=answer_id,
     )
