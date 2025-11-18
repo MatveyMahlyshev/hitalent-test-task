@@ -4,7 +4,7 @@ import os
 
 
 class DBSettings(BaseModel):
-    url: str = os.getenv("DATABASE_URL")
+    url: str = os.getenv("DATABASE_URL") or "postgresql+asyncpg://postgres:postgres@localhost:5432/hitalent_db"
     echo: bool = False
 
 
