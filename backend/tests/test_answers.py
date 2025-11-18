@@ -34,7 +34,7 @@ def test_create_answer(client):
 
 def test_get_answer_by_id(client):
     response_data, question_id = create_question_with_answer(client=client)
-    response = client.get(f"/api/v1/answers/{response_data.json().get("id")}")
+    response = client.get(f"/api/v1/answers/{response_data.json().get('id')}")
     response_data = response_data.json()
     client.delete(f"/api/v1/questions/{question_id}")
 
@@ -49,7 +49,7 @@ def test_get_answer_by_id(client):
 def test_delete_answer(client):
     response_data, question_id = create_question_with_answer(client=client)
 
-    response = client.delete(f"/api/v1/answers/{response_data.json().get("id")}")
+    response = client.delete(f"/api/v1/answers/{response_data.json().get('id')}")
     client.delete(f"/api/v1/questions/{question_id}")
 
     response_data = response.json()
