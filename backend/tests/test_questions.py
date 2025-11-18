@@ -79,7 +79,7 @@ def test_delete_question_by_id(client):
 
     response = client.delete(f"/api/v1/questions/{question_id}")
 
-    assert response.status_code == 201
+    assert response.status_code == 200
     assert response_data.get("id")
     assert response_data.get("text")
     assert response_data.get("created_at")
