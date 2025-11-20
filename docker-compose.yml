@@ -29,6 +29,7 @@ services:
       - "8000:8000"
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/hitalent_db
+      REDIS_HOST: redis
     command: >
       sh -c "alembic upgrade head &&
             uvicorn main:app --host 0.0.0.0 --port 8000 --reload"

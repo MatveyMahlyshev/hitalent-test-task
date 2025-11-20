@@ -13,14 +13,13 @@ def questions_key_builder(
     args: Tuple[Any, ...],
     kwargs: Dict[str, Any],
 ) -> str:
-    print("args:", args)
-    print("kwargs:", kwargs)
     excluded_types = (async_scoped_session,)
     cache_kw = {}
     for name, value in kwargs.items():
         if isinstance(value, excluded_types):
             continue
         cache_kw[name] = value
+    print("kwargs:", cache_kw)
     cache_key = hashlib.md5(  # noqa: S324
         f"{func.__module__}:{func.__name__}:{args}:{cache_kw}".encode()
     ).hexdigest()

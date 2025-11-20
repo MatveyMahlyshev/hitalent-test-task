@@ -17,7 +17,7 @@ class RedisDB(BaseModel):
 
 
 class RedisConfig(BaseModel):
-    host: str = "localhost"
+    host: str = os.getenv("REDIS_HOST") or "localhost"
     port: int = 6379
     db: RedisDB = RedisDB()
 
@@ -29,7 +29,7 @@ class CacheNamespace(BaseModel):
 class CacheConfig(BaseModel):
     prefix: str = "fastapi-cache"
     namespace: CacheNamespace = CacheNamespace()
-    environment: str = "testing"
+    environment: str = os.getenv("ENV") or "testing"
 
 
 class Settings(BaseSettings):
