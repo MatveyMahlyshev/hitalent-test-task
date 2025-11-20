@@ -62,6 +62,11 @@ async def create_new_question(
         status.HTTP_404_NOT_FOUND: {"description": "Нет вопроса с таким id."},
     },
 )
+@cache(
+    expire=60,
+    key_builder=questions_key_builder,
+    namespace=settings.cache.namespace.questions_list,
+)
 async def get_question_by_id(
     question_id: int,
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
