@@ -78,6 +78,7 @@ def test_delete_question_by_id(client):
     question_id = response_data.get("id")
 
     response = client.delete(f"/api/v1/questions/{question_id}")
+    print(f"\n\n\n{response.json}\n\n\n")
 
     assert response.status_code == 200
     assert response_data.get("id")

@@ -29,6 +29,7 @@ class CacheNamespace(BaseModel):
 class CacheConfig(BaseModel):
     prefix: str = "fastapi-cache"
     namespace: CacheNamespace = CacheNamespace()
+    environment: str = "testing"
 
 
 class Settings(BaseSettings):

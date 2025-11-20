@@ -10,6 +10,11 @@ from .schemas import AnswerCreate
 from api_v1.questions.crud import get_question_by_id
 
 
+async def cache_clear():
+    if settings.cache.environment != "testing":
+        await FastAPICache.clear(namespace=settings.cache.namespace.questions_list)
+
+
 async def create_answer(
     session: AsyncSession,
     question_id: int,
@@ -19,8 +24,6 @@ async def create_answer(
         session=session,
         question_id=question_id,
     )
-
-    
 
     new_answer = Answer(**answer.model_dump(), question_id=question_id)
     session.add(new_answer)
@@ -32,8 +35,8 @@ async def create_answer(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Неудачное создание объекта.",
         )
-    
-    await FastAPICache.clear(namespace=settings.cache.namespace.questions_list)
+
+    await cache_clear()
     return new_answer
 
 
