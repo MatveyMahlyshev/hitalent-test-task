@@ -15,4 +15,5 @@ test_objects = {
 def client():
     with TestClient(app) as client:
         yield client
+    
     db_helper.engine.sync_engine.dispose()
