@@ -1,9 +1,12 @@
 from fastapi import APIRouter, status, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi_cache.decorator import cache
 
 from core.models import db_helper
 from . import crud
 from .schemas import Question, QuestionCreate, QuestionWithAnswers
+from .key_builder import questions_key_builder
+from core.config import settings
 
 router = APIRouter(tags=["Questions"])
 
@@ -13,10 +16,15 @@ router = APIRouter(tags=["Questions"])
     response_model=list[Question],
     status_code=status.HTTP_200_OK,
 )
+@cache(
+    expire=60,
+    key_builder=questions_key_builder,
+    namespace=settings.cache.namespace.questions_list,
+)
 async def get_all_questions(
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
-    """Список вопросов с ответами."""
+    """Список вопросов."""
     return await crud.get_all_questions(session=session)
 
 

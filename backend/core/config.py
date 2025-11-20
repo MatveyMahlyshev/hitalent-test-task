@@ -9,7 +9,7 @@ class DBSettings(BaseModel):
         os.getenv("DATABASE_URL")
         or "postgresql+asyncpg://postgres:postgres@localhost:5432/hitalent_db"
     )
-    echo: bool = False
+    echo: bool = True
 
 
 class RedisDB(BaseModel):
