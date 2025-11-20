@@ -1,6 +1,12 @@
 services:
+
+  redis:
+    image: redis:8-alpine
+    ports:
+      - "6379:6379"
+
   db:
-    image: postgres:14
+    image: postgres:17
     container_name: hitalent
     restart: always
     environment:
